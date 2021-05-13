@@ -1,5 +1,6 @@
 import React from 'react'
 import { Heading, Box, Center, Button } from '@chakra-ui/react'
+import { Link } from 'react-router-dom'
 import bg from '../assets/bg.jpg'
 
 export const Home = () => (
@@ -10,7 +11,9 @@ export const Home = () => (
           Home Page
         </Heading>
 
-        <Button>Wellcome!</Button>
+        <Button as={Link} to="/offers">
+          Wellcome!
+        </Button>
       </div>
     </Center>
   </Box>
