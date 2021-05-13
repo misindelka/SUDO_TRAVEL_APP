@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "eslint --fix --ignore-path .gitignore \"**/*.{js,jsx}\""
   },
   "repository": {
     "type": "git",
