@@ -1,3 +1,9 @@
-import React from 'react'
+import React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
+import { Home } from "./pages/Home";
 
-export const App = () => <h1>works  !</h1>
+export const App = () => (
+  <ChakraProvider>
+    <Home />
+  </ChakraProvider>
+);
