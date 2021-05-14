@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { differenceInMonths } from 'date-fns'
-import { useToast, Spinner } from '@chakra-ui/react'
+import { useToast, Spinner, Box, Flex } from '@chakra-ui/react'
 import { Header } from './components/Header'
-import { Card } from '../components/Card'
+import { Card } from './components/Card'
 import { useOffers } from '../hooks'
+import { SideBar } from './components/SideBar'
 
 export const Offers = () => {
   const { data, error, isLoading } = useOffers()
@@ -14,27 +15,45 @@ export const Offers = () => {
   return (
     <>
       <Header />
-      {isLoading ? (
-        <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
-      ) : (
-        data?.map(({ id, thumbnail, nights, city, price, rating, reviewCount, createdAt }) => (
-          <Card
-            key={id}
-            imageUrl={thumbnail}
-            numberOfNights={nights}
-            destination={city}
-            formatedPrice={new Intl.NumberFormat('sk', {
-              style: 'currency',
-              currency: 'EUR',
-              maximumFractionDigits: 0,
-            }).format(price)}
-            rating={rating}
-            reviewsCount={reviewCount}
-            linkTo="/offers/1"
-            isNew={differenceInMonths(new Date(), new Date(createdAt)) < 6}
-          />
-        ))
-      )}
+      <Flex direction="row">
+        <Box>
+          <SideBar />
+        </Box>
+
+        <Box m="2">
+          <Flex wrap="wrap">
+            {isLoading ? (
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+              />
+            ) : (
+              data?.map(
+                ({ id, thumbnail, nights, city, price, rating, reviewCount, createdAt }) => (
+                  <Card
+                    key={id}
+                    imageUrl={thumbnail}
+                    numberOfNights={nights}
+                    destination={city}
+                    formatedPrice={new Intl.NumberFormat('sk', {
+                      style: 'currency',
+                      currency: 'EUR',
+                      maximumFractionDigits: 0,
+                    }).format(price)}
+                    rating={rating}
+                    reviewsCount={reviewCount}
+                    linkTo="/offers/1"
+                    isNew={differenceInMonths(new Date(), new Date(createdAt)) < 6}
+                  />
+                )
+              )
+            )}
+          </Flex>
+        </Box>
+      </Flex>
     </>
   )
 }
