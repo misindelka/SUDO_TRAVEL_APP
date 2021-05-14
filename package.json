@@ -10,7 +10,7 @@
     "serve": "vite preview",
     "prepare": "husky install",
     "lint": "eslint --fix --ignore-path .gitignore \"**/*.{js,jsx}\"",
-   "start:server": "json-server --watch backend/db.json --port 3004"
+    "start:server": "json-server --watch backend/db.json --port 3004"
   },
   "repository": {
     "type": "git",
@@ -23,11 +23,14 @@
   },
   "homepage": "https://github.com/misindelka/SUDO_TRAVEL_APP#readme",
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.13",
     "@chakra-ui/react": "^1.6.1",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
+    "date-fns": "^2.21.3",
     "framer-motion": "^4.1.15",
     "history": "^5.0.0",
+    "lodash-es": "^4.17.21",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
