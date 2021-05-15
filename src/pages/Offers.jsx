@@ -10,9 +10,9 @@ import { SideBar } from './components/SideBar'
 export const Offers = () => {
   const [onlyNew, setOnlyNew] = React.useState(false)
   const [search, setSearch] = React.useState('')
-  // eslint-disable-next-line no-unused-vars
-  const [filteredData, setFilteredData] = React.useState()
   const { data, error, isLoading } = useOffers()
+  const [filteredData, setFilteredData] = React.useState()
+
   const toast = useToast()
   if (error) {
     toast({ status: 'error', title: 'something wrong ', description: 'sorry' })
@@ -24,10 +24,6 @@ export const Offers = () => {
 
   // eslint-disable-next-line consistent-return
   const filterItems = () => {
-    if (!search) {
-      return data
-    }
-
     setFilteredData(
       data.filter((i) => {
         return Object.keys(i).some((key) => {
@@ -41,6 +37,8 @@ export const Offers = () => {
     setSearch(e.target.value.toLowerCase())
     filterItems()
   }
+
+  const renderData = !search ? data : filteredData
 
   return (
     <>
@@ -61,9 +59,23 @@ export const Offers = () => {
                 size="xl"
               />
             ) : (
-              data.map(({ id, thumbnail, nights, city, price, rating, reviewCount, createdAt }) => {
-                return onlyNew ? (
-                  isItemNew(createdAt) && (
+              renderData.map(
+                ({ id, thumbnail, nights, city, price, rating, reviewCount, createdAt }) => {
+                  return onlyNew ? (
+                    isItemNew(createdAt) && (
+                      <Card
+                        key={id}
+                        imageUrl={thumbnail}
+                        numberOfNights={nights}
+                        destination={city}
+                        formatedPrice={formatPrice(price)}
+                        rating={rating}
+                        reviewsCount={reviewCount}
+                        linkTo="/offers/1"
+                        isNew={isItemNew(createdAt)}
+                      />
+                    )
+                  ) : (
                     <Card
                       key={id}
                       imageUrl={thumbnail}
@@ -76,20 +88,8 @@ export const Offers = () => {
                       isNew={isItemNew(createdAt)}
                     />
                   )
-                ) : (
-                  <Card
-                    key={id}
-                    imageUrl={thumbnail}
-                    numberOfNights={nights}
-                    destination={city}
-                    formatedPrice={formatPrice(price)}
-                    rating={rating}
-                    reviewsCount={reviewCount}
-                    linkTo="/offers/1"
-                    isNew={isItemNew(createdAt)}
-                  />
-                )
-              })
+                }
+              )
             )}
           </Flex>
         </Box>
