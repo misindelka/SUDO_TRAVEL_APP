@@ -2,7 +2,8 @@ import * as React from 'react'
 import { Box, Checkbox, Text } from '@chakra-ui/react'
 import { useOffers } from '../../hooks/useOffers'
 
-export const SideBar = () => {
+// eslint-disable-next-line react/prop-types
+export const SideBar = ({ handleFilters }) => {
   const { data } = useOffers()
   return (
     <Box m="4" w="30vh" h="100%">
@@ -12,7 +13,7 @@ export const SideBar = () => {
         </Text>
       </Box>
       <Box m="5">
-        <Checkbox>New only</Checkbox>
+        <Checkbox onChange={() => handleFilters()}>New only</Checkbox>
       </Box>
 
       <Box m="5">
