@@ -9,7 +9,9 @@ import { SideBar } from './components/SideBar'
 
 export const Offers = () => {
   const [onlyNew, setOnlyNew] = React.useState(false)
-
+  const [search, setSearch] = React.useState('')
+  // eslint-disable-next-line no-unused-vars
+  const [filteredData, setFilteredData] = React.useState()
   const { data, error, isLoading } = useOffers()
   const toast = useToast()
   if (error) {
@@ -19,11 +21,30 @@ export const Offers = () => {
   const handleFilters = () => {
     setOnlyNew(!onlyNew)
   }
-  // const isItemNew = (props) => differenceInMonths(new Date(), new Date(props)) < 6
+
+  // eslint-disable-next-line consistent-return
+  const filterItems = () => {
+    if (!search) {
+      return data
+    }
+
+    setFilteredData(
+      data.filter((i) => {
+        return Object.keys(i).some((key) => {
+          return i[key].toString().toLowerCase().includes(search)
+        })
+      })
+    )
+  }
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value.toLowerCase())
+    filterItems()
+  }
 
   return (
     <>
-      <Header />
+      <Header handleSearch={handleSearch} />
       <Flex direction="row">
         <Box>
           <SideBar handleFilters={handleFilters} />
@@ -40,23 +61,9 @@ export const Offers = () => {
                 size="xl"
               />
             ) : (
-              data?.map(
-                ({ id, thumbnail, nights, city, price, rating, reviewCount, createdAt }) => {
-                  return onlyNew ? (
-                    isItemNew(createdAt) && (
-                      <Card
-                        key={id}
-                        imageUrl={thumbnail}
-                        numberOfNights={nights}
-                        destination={city}
-                        formatedPrice={formatPrice(price)}
-                        rating={rating}
-                        reviewsCount={reviewCount}
-                        linkTo="/offers/1"
-                        isNew={isItemNew(createdAt)}
-                      />
-                    )
-                  ) : (
+              data.map(({ id, thumbnail, nights, city, price, rating, reviewCount, createdAt }) => {
+                return onlyNew ? (
+                  isItemNew(createdAt) && (
                     <Card
                       key={id}
                       imageUrl={thumbnail}
@@ -69,8 +76,20 @@ export const Offers = () => {
                       isNew={isItemNew(createdAt)}
                     />
                   )
-                }
-              )
+                ) : (
+                  <Card
+                    key={id}
+                    imageUrl={thumbnail}
+                    numberOfNights={nights}
+                    destination={city}
+                    formatedPrice={formatPrice(price)}
+                    rating={rating}
+                    reviewsCount={reviewCount}
+                    linkTo="/offers/1"
+                    isNew={isItemNew(createdAt)}
+                  />
+                )
+              })
             )}
           </Flex>
         </Box>

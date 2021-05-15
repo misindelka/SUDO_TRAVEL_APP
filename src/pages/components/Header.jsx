@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 import header from '../../assets/header.jpg'
 import { NavLink } from './NavLink'
 
-export const Header = () => {
+// eslint-disable-next-line react/prop-types
+export const Header = ({ handleSearch }) => {
   return (
     <Box as="header" m="2" shadow="base">
       <Container
@@ -35,7 +36,7 @@ export const Header = () => {
 
             <InputGroup size="lg" marginTop="8" textColor="white">
               <InputLeftElement children={<SearchIcon color="white" />} />
-              <Input placeholder="Search........" />
+              <Input placeholder="Search........" type="text" onChange={(e) => handleSearch(e)} />
             </InputGroup>
           </div>
         </Container>
