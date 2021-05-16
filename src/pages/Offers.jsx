@@ -12,7 +12,8 @@ export const Offers = () => {
   const [search, setSearch] = React.useState('')
   const { data, error, isLoading } = useOffers()
   const [filteredData, setFilteredData] = React.useState()
-
+  // eslint-disable-next-line no-unused-vars
+  const [selectedCountry, setSelectedCountry] = React.useState()
   const toast = useToast()
   if (error) {
     toast({ status: 'error', title: 'something wrong ', description: 'sorry' })
@@ -60,7 +61,17 @@ export const Offers = () => {
               />
             ) : (
               renderData.map(
-                ({ id, thumbnail, nights, city, price, rating, reviewCount, createdAt }) => {
+                ({
+                  id,
+                  thumbnail,
+                  nights,
+                  city,
+                  country,
+                  price,
+                  rating,
+                  reviewCount,
+                  createdAt,
+                }) => {
                   return onlyNew ? (
                     isItemNew(createdAt) && (
                       <Card
@@ -68,6 +79,7 @@ export const Offers = () => {
                         imageUrl={thumbnail}
                         numberOfNights={nights}
                         destination={city}
+                        country={country}
                         formatedPrice={formatPrice(price)}
                         rating={rating}
                         reviewsCount={reviewCount}
@@ -81,6 +93,7 @@ export const Offers = () => {
                       imageUrl={thumbnail}
                       numberOfNights={nights}
                       destination={city}
+                      country={country}
                       formatedPrice={formatPrice(price)}
                       rating={rating}
                       reviewsCount={reviewCount}

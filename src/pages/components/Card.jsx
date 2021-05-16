@@ -14,6 +14,7 @@ export const Card = ({
   formatedPrice,
   rating,
   reviewsCount,
+  country,
   // eslint-disable-next-line no-unused-vars
   linkTo,
   isNew,
@@ -43,7 +44,7 @@ export const Card = ({
         </Box>
 
         <Box mt="1" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
-          {destination}
+          {destination} , {country}
         </Box>
 
         <Box as="span" color="gray.600" fontSize="sm">

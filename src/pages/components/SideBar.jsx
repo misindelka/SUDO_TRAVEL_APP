@@ -1,10 +1,17 @@
 import * as React from 'react'
-import { Box, Checkbox, Text } from '@chakra-ui/react'
+import { Box, RadioGroup, Radio, Stack, Text, Checkbox } from '@chakra-ui/react'
 import { useOffers } from '../../hooks/useOffers'
 
 // eslint-disable-next-line react/prop-types
 export const SideBar = ({ handleFilters }) => {
   const { data } = useOffers()
+
+  const getCountries = data.map((i) => i.country)
+
+  const countries = getCountries
+    .filter((country, i) => getCountries.indexOf(country) === i)
+    .sort((a, b) => a.localeCompare(b))
+
   return (
     <Box m="4" w="30vh" h="100%">
       <Box m="5">
@@ -21,12 +28,19 @@ export const SideBar = ({ handleFilters }) => {
           FILTER BY COUNTRY
         </Text>
       </Box>
-      {data.map((i) => (
-        <Box key={i.id} display="flex" m="5">
-          <Checkbox size="sm" marginRight="3" />
-          <Text fontSize="sm">{i.country}</Text>
-        </Box>
-      ))}
+
+      <Box display="flex" m="5">
+        <RadioGroup onChange="" value="">
+          <Stack direction="column">
+            <Radio value={0}>All</Radio>
+            {countries.map((country) => (
+              <Radio key={country} value={country}>
+                {country}
+              </Radio>
+            ))}
+          </Stack>
+        </RadioGroup>
+      </Box>
     </Box>
   )
 }
